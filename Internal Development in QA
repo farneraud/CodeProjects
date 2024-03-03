@@ -23,7 +23,7 @@ if __name__ == "__main__":
     source_path = "/path/to/source"
     replica_path = "/path/to/replica"
     log_file = "/path/to/logfile.txt"
-    interval = 60  # Sync interval in seconds
+    interval = 60 
 
     while True:
         sync_folders(source_path, replica_path, log_file)
