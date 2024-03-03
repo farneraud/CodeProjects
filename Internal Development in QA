@@ -1,0 +1,34 @@
+import os
+import shutil
+import time
+
+def sync_folders(source_folder, replica_folder, log_file):
+    for root, dirs, files in os.walk(source_folder):
+        relative_folder = os.path.relpath(root, source_folder)
+        replica_dir = os.path.join(replica_folder, relative_folder)
+        os.makedirs(replica_dir, exist_ok=True)
+
+        for file in files:
+            source_path = os.path.join(root, file)
+            replica_path = os.path.join(replica_dir, file)
+            shutil.copy2(source_path, replica_path)
+            log(log_file, f"Copied {source_path} to {replica_path}")
+
+def log(log_file, message):
+    with open(log_file, "a") as f:
+        f.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} - {message}\n")
+    print(message)
+
+if __name__ == "__main__":
+    source_path = "/path/to/source"
+    replica_path = "/path/to/replica"
+    log_file = "/path/to/logfile.txt"
+    interval = 60  # Sync interval in seconds
+
+    while True:
+        sync_folders(source_path, replica_path, log_file)
+        time.sleep(interval)
+
+    while True:
+        sync_folders(args.source_path, args.replica_path, args.log_file)
+        time.sleep(args.interval)
